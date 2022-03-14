@@ -12,15 +12,16 @@
 using namespace std;
 
 struct wezel {
-    char kolor;
+    int kolor;
     int klucz;
     wezel *lewy;
     wezel *prawy;
     wezel *ojciec;
-    int ile = 1;
 };
 
 struct wezel *root;
+
+void left_rotate();
 
 void dodaj_wezel(int n) {
     struct wezel* aktualny = root;
@@ -37,7 +38,7 @@ void dodaj_wezel(int n) {
     {
         while (aktualny != NULL) {
             if (aktualny->klucz == dodawany->klucz) {
-                aktualny->ile++;
+                aktualny->kolor++;
                 return;
             }
             if (aktualny->klucz < dodawany->klucz) {
@@ -93,14 +94,14 @@ struct wezel* usun_klucz(struct wezel* wezel, int szukany) {
             }
             struct wezel* tmp = wezel->prawy;
             wezel->klucz = tmp->klucz;
-            wezel->ile = tmp->ile;
+            wezel->kolor = tmp->kolor;
             while (tmp->lewy != NULL) {
                 tmp = tmp->lewy;
             }
             wezel->prawy = usun_klucz(wezel->prawy, tmp->klucz);
         }
         else {
-            wezel->ile = wezel->ile - 1;
+            wezel->kolor = wezel->kolor - 1;
         }
         
     }
@@ -125,7 +126,7 @@ void szukaj_klucz(struct  wezel* wezel, int szukany) {
             prawy = tmp->klucz;
         }
         
-        cout << "Znaleziono klucz: " << wezel->klucz << endl << "Powtorzenia: " << wezel->ile << endl << "Ojciec: " << ojciec << endl << "Prawy syn: " << prawy << endl << "Lewy syn: " << lewy << endl;
+        cout << "Znaleziono klucz: " << wezel->klucz << endl << "Powtorzenia: " << wezel->kolor << endl << "Ojciec: " << ojciec << endl << "Prawy syn: " << prawy << endl << "Lewy syn: " << lewy << endl;
     }
     else if (wezel->klucz > szukany && wezel->lewy != NULL)
         szukaj_klucz(wezel->lewy, szukany);
@@ -137,7 +138,7 @@ void drukowanie(struct wezel* wezel)
     if (wezel->lewy != NULL) {
         drukowanie(wezel->lewy);
     }
-    cout << endl << wezel->klucz << "[" << wezel->ile << "]" << endl;
+    cout << endl << wezel->klucz << "[" << wezel->kolor << "]" << endl;
     if (wezel->prawy != NULL) {
         drukowanie(wezel->prawy);
     }
