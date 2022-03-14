@@ -79,15 +79,15 @@ struct wezel* usun_klucz(struct wezel* wezel, int szukany) {
         if (wezel->ile == 1) {
             if (root->lewy == NULL && root->prawy == NULL) {
                 delete(root);
-                root = NULL;
-                return NULL;
+                root = nullptr;
+                return nullptr;
             }
-            if (wezel->lewy == NULL) {
+            if (wezel->lewy == nullptr) {
                 struct wezel* tmp = wezel->prawy;
                 delete(wezel);
                 return tmp;
             }
-            else if (wezel->prawy == NULL) {
+            else if (wezel->prawy == nullptr) {
                 struct wezel* tmp = wezel->lewy;
                 delete(wezel);
                 return tmp;
@@ -95,7 +95,7 @@ struct wezel* usun_klucz(struct wezel* wezel, int szukany) {
             struct wezel* tmp = wezel->prawy;
             wezel->klucz = tmp->klucz;
             wezel->kolor = tmp->kolor;
-            while (tmp->lewy != NULL) {
+            while (tmp->lewy != nullptr) {
                 tmp = tmp->lewy;
             }
             wezel->prawy = usun_klucz(wezel->prawy, tmp->klucz);
