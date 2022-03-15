@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "lab"
+			"path" : "lab1"
 		}
 	],
 	"backtrace" : 1,
@@ -52,12 +52,11 @@
 			},
 			"sourceIndexes" : 
 			[
-				0,
-				1
+				0
 			]
 		}
 	],
-	"id" : "lab::@6890427a1f51a3e7e1df",
+	"id" : "lab1::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -73,8 +72,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "lab",
-	"nameOnDisk" : "lab",
+	"name" : "lab1",
+	"nameOnDisk" : "lab1",
 	"paths" : 
 	{
 		"build" : ".",
@@ -86,8 +85,7 @@
 			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
-				0,
-				1
+				0
 			]
 		}
 	],
@@ -96,13 +94,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : " pseudokod_rbt.cpp",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"compileGroupIndex" : 0,
-			"path" : "red_black_tree.cpp",
+			"path" : "main.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

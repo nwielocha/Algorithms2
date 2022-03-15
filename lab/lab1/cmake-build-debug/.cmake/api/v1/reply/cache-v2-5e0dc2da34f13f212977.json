@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/nicolaswielocha/UG/semestr_4/algorytmy/lab/cmake-build-debug"
+			"value" : "/Users/nicolaswielocha/UG/semestr_4/algorytmy/lab/lab1/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -515,7 +515,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/nicolaswielocha/UG/semestr_4/algorytmy/lab"
+			"value" : "/Users/nicolaswielocha/UG/semestr_4/algorytmy/lab/lab1"
 		},
 		{
 			"name" : "CMAKE_INSTALL_NAME_TOOL",
@@ -795,7 +795,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "lab"
+			"value" : "lab1"
 		},
 		{
 			"name" : "CMAKE_RANLIB",
@@ -1078,7 +1078,7 @@
 			"value" : "FALSE"
 		},
 		{
-			"name" : "lab_BINARY_DIR",
+			"name" : "lab1_BINARY_DIR",
 			"properties" : 
 			[
 				{
@@ -1087,10 +1087,10 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/nicolaswielocha/UG/semestr_4/algorytmy/lab/cmake-build-debug"
+			"value" : "/Users/nicolaswielocha/UG/semestr_4/algorytmy/lab/lab1/cmake-build-debug"
 		},
 		{
-			"name" : "lab_IS_TOP_LEVEL",
+			"name" : "lab1_IS_TOP_LEVEL",
 			"properties" : 
 			[
 				{
@@ -1102,7 +1102,7 @@
 			"value" : "ON"
 		},
 		{
-			"name" : "lab_SOURCE_DIR",
+			"name" : "lab1_SOURCE_DIR",
 			"properties" : 
 			[
 				{
@@ -1111,7 +1111,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/nicolaswielocha/UG/semestr_4/algorytmy/lab"
+			"value" : "/Users/nicolaswielocha/UG/semestr_4/algorytmy/lab/lab1"
 		}
 	],
 	"kind" : "cache",

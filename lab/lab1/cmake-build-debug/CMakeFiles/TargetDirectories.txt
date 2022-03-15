@@ -1,3 +1,3 @@
-/Users/nicolaswielocha/UG/semestr_4/algorytmy/lab/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/nicolaswielocha/UG/semestr_4/algorytmy/lab/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/nicolaswielocha/UG/semestr_4/algorytmy/lab/cmake-build-debug/CMakeFiles/lab.dir
+/Users/nicolaswielocha/UG/semestr_4/algorytmy/lab/lab1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/nicolaswielocha/UG/semestr_4/algorytmy/lab/lab1/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/nicolaswielocha/UG/semestr_4/algorytmy/lab/lab1/cmake-build-debug/CMakeFiles/lab1.dir
