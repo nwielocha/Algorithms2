@@ -7,7 +7,7 @@
 class Node:
     def __init__(self, key):
         self.key = key
-        self.parent = None
+        self.p = None
         self.left = None
         self.right = None
         self.red = False
@@ -23,7 +23,7 @@ class RBT:
 
     def insert(self, key):
         new_node = Node(key)
-        new_node.parent = None
+        new_node.p = None
         new_node.left = self.nil
         new_node.right = self.nil
         new_node.red = True  # Nowy wezel musi byc czerwony
@@ -38,7 +38,7 @@ class RBT:
                 current = current.right
 
         # Ustaw rodzica i wstaw nowy wezel
-        new_node.parent = parent
+        new_node.p = parent
         if parent is None:
             self.root = new_node
         elif new_node.key < parent.key:
@@ -53,64 +53,64 @@ class RBT:
         y = x.right
         x.right = y.left
         if y.left != self.nil:
-            y.left.parent = x
+            y.left.p = x
 
-        y.parent = x.parent
-        if x.parent is None:
+        y.p = x.p
+        if x.p is None:
             self.root = y
-        elif x == x.parent.left:
-            x.parent.left = y
+        elif x == x.p.left:
+            x.p.left = y
         else:
-            x.parent.right = y
+            x.p.right = y
         y.left = x
-        x.parent = y
+        x.p = y
 
     def right_rotate(self, y):
         x = y.left
         y.left = x.right
         if x.right != self.nil:
-            x.right.parent = y
+            x.right.p = y
 
-        x.parent = y.parent
-        if y.parent is None:
+        x.p = y.p
+        if y.p is None:
             self.root = x
-        elif y == y.parent.right:
-            y.parent.right = x
+        elif y == y.p.right:
+            y.p.right = x
         else:
-            y.parent.left = x
+            y.p.left = x
         x.right = y
-        y.parent = x
+        y.p = x
 
     def insert_fixup(self, new_node):
-        while new_node != self.root and new_node.parent.red:
-            if new_node.parent == new_node.parent.parent.left:
-                y = new_node.parent.parent.left # Wujek
+        while new_node != self.root and new_node.p.red:
+            if new_node.p == new_node.p.p.left:
+                y = new_node.p.p.left # Wujek
                 if y.red:
                     y.red = False
-                    new_node.parent.red = False
-                    new_node.parent.parent.red = True
-                    new_node = new_node.parent.parent
+                    new_node.p.red = False
+                    new_node.p.p.red = True
+                    new_node = new_node.p.p
                 else:
-                    if new_node == new_node.parent.left:
-                        new_node = new_node.parent
-                        self.rotate_right(new_node)
-                    new_node.parent.red = False
-                    new_node.parent.parent.red = True
-                    self.rotate_left(new_node.parent.parent)
+                    if new_node == new_node.p.left:
+                        new_node = new_node.p
+                        self.right_rotate(new_node)
+                    new_node.p.red = False
+                    new_node.p.p.red = True
+                    self.left_rotate(new_node.p.p)
             else:
-                y = new_node.parent.parent.right  # Wujek
+                y = new_node.p.p.right  # Wujek
 
                 if y.red:
                     y.red = False
-                    new_node.parent.red = False
-                    new_node.parent.parent.red = True
-                    new_node = new_node.parent.parent
+                    new_node.p.red = False
+                    new_node.p.p.red = True
+                    new_node = new_node.p.p
                 else:
-                    if new_node == new_node.parent.right:
-                        new_node = new_node.parent
-                        self.rotate_left(new_node)
-                    new_node.parent.red = False
-                    new_node.parent.parent.red = True
-                    self.rotate_right(new_node.parent.parent)
+                    if new_node == new_node.p.right:
+                        new_node = new_node.p
+                        self.left_rotate(new_node)
+                    new_node.p.red = False
+                    new_node.p.p.red = True
+                    self.right_rotate(new_node.p.p)
             self.root.red = False
 
