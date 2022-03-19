@@ -49,7 +49,7 @@ class RBT:
         # Fixup
         self.insert_fixup(new_node)
 
-    def rotate_left(self, x):
+    def left_rotate(self, x):
         y = x.right
         x.right = y.left
         if y.left != self.nil:
@@ -65,21 +65,21 @@ class RBT:
         y.left = x
         x.parent = y
 
-    def rotate_right(self, x):
-        y = x.left
-        x.left = y.right
-        if y.right != self.nil:
-            y.right.parent = x
+    def right_rotate(self, y):
+        x = y.left
+        y.left = x.right
+        if x.right != self.nil:
+            x.right.parent = y
 
-        y.parent = x.parent
-        if x.parent is None:
-            self.root = y
-        elif x == x.parent.right:
-            x.parent.right = y
+        x.parent = y.parent
+        if y.parent is None:
+            self.root = x
+        elif y == y.parent.right:
+            y.parent.right = x
         else:
-            x.parent.left = y
-        y.right = x
-        x.parent = y
+            y.parent.left = x
+        x.right = y
+        y.parent = x
 
     def insert_fixup(self, new_node):
         while new_node != self.root and new_node.parent.red:
