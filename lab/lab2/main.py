@@ -86,17 +86,17 @@ class RBT:
             if new_node.p == new_node.p.p.left:
                 y = new_node.p.p.left # Wujek
                 if y.red:
-                    y.red = False
-                    new_node.p.red = False
-                    new_node.p.p.red = True
-                    new_node = new_node.p.p
+                    y.red = False               # Przypadek 1
+                    new_node.p.red = False      # Przypadek 1
+                    new_node.p.p.red = True     # Przypadek 1
+                    new_node = new_node.p.p     # Przypadek 1
                 else:
-                    if new_node == new_node.p.left:
-                        new_node = new_node.p
-                        self.right_rotate(new_node)
-                    new_node.p.red = False
-                    new_node.p.p.red = True
-                    self.left_rotate(new_node.p.p)
+                    if new_node == new_node.p.left:     # Przypadek 2
+                        new_node = new_node.p           # Przypadek 2
+                        self.right_rotate(new_node)     # Przypadek 2
+                    new_node.p.red = False              # Przypadek 3
+                    new_node.p.p.red = True             # Przypadek 3
+                    self.left_rotate(new_node.p.p)      # Przypadek 3
             else:
                 y = new_node.p.p.right  # Wujek
 
