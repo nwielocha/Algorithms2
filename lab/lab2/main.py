@@ -114,3 +114,5 @@ class RBT:
                     self.right_rotate(new_node.p.p)
             self.root.red = False
 
+# TODO: usuwanie
+# TODO: usuwanie-fixup
