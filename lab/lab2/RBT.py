@@ -7,7 +7,7 @@
 class Node:
     def __init__(self, key):
         self.key = key
-        self.p = None
+        self.parent = None
         self.left = None
         self.right = None
         self.red = True
@@ -24,7 +24,7 @@ class RBT:
 
     def insert(self, key):
         new_node = Node(key)
-        new_node.p = None
+        new_node.parent = None
         new_node.left = self.nil
         new_node.right = self.nil
 
@@ -44,7 +44,7 @@ class RBT:
                 current = current.right
 
         # Ustaw rodzica i wstaw nowy wezel
-        new_node.p = parent
+        new_node.parent = parent
         if parent is None:
             self.root = new_node
         elif new_node.key < parent.key:
@@ -53,83 +53,82 @@ class RBT:
             parent.right = new_node
 
         # Fixup
-        if new_node.p != self.root:
+        if new_node.parent != self.root:
             self.insert_fixup(new_node)
 
-    def left_rotate(self, rotated_node):
-        right_son = rotated_node.right  # Inicjuj right_son
-        rotated_node.right = right_son.left  # Zamien lewe poddrzewo prawego syna RW na prawe poddrzewo RW
-        if right_son.left != self.nil:
-            right_son.left.p = rotated_node
-        right_son.p = rotated_node.p  # Ojcem prawego syna RW uczyń ojca RW
-        if rotated_node.p is None:
-            self.root = right_son
-        elif rotated_node == rotated_node.p.left:
-            rotated_node.p.left = right_son
+    def left_rotate(self, x):
+        y = x.right  # Inicjuj right_son
+        x.right = y.left  # Zamien lewe poddrzewo prawego syna RW na prawe poddrzewo RW
+        if y.left != self.nil:
+            y.left.parent = x
+        y.parent = x.parent  # Ojcem prawego syna RW uczyń ojca RW
+        if x.parent is None:
+            self.root = y
+        elif x == x.parent.left:
+            x.parent.left = y
         else:
-            rotated_node.p.right = right_son
-        right_son.left = rotated_node  # Przyłącz RW jako lewego syna prawego syna RW
-        rotated_node.p = right_son
+            x.parent.right = y
+        y.left = x  # Przyłącz RW jako lewego syna prawego syna RW
+        x.parent = y
 
-    def right_rotate(self, rotated_node):
-        left_son = rotated_node.left
-        rotated_node.left = left_son.right
-        if left_son.right != self.nil:
-            left_son.right.p = rotated_node
-        left_son.p = rotated_node.p
-        if rotated_node.p is None:
-            self.root = left_son
-        elif rotated_node == rotated_node.p.right:
-            rotated_node.p.right = left_son
+    def right_rotate(self, x):
+        y = x.left
+        x.left = y.right
+        if y.right != self.nil:
+            y.right.parent = x
+        y.parent = x.parent
+        if x.parent == None:
+            self.root = y
+        elif x == x.parent.right:
+            x.parent.right = y
         else:
-            rotated_node.p.left = left_son
-        left_son.right = rotated_node
-        rotated_node.p = left_son
+            x.parent.left = y
+        y.right = x
+        x.parent = y
 
-    def insert_fixup(self, new_node):
-        while new_node != self.root and new_node.p.red:
-            if new_node.p == new_node.p.p.left:
-                uncle = new_node.p.p.right  # Wujek
+    def insert_fixup(self, k):
+        while k.parent.red:
+            if k.parent == k.parent.parent.left: #ojciec jest lewym synem dziadka
+                uncle = k.parent.parent.right  # Wujek
                 if uncle.red:
                     uncle.red = False  # Przypadek 1
-                    new_node.p.red = False  # Przypadek 1
-                    new_node.p.p.red = True  # Przypadek 1
-                    new_node = new_node.p.p  # Przypadek 1
+                    k.parent.red = False  # Przypadek 1
+                    k.parent.parent.red = True  # Przypadek 1
+                    k = k.parent.parent  # Przypadek 1
                 else:
-                    if new_node == new_node.p.left:  # Przypadek 2
-                        new_node = new_node.p  # Przypadek 2
-                        self.right_rotate(new_node)  # Przypadek 2
-                    else:
-                        new_node.p.red = False  # Przypadek 3
-                        new_node.p.p.red = True  # Przypadek 3
-                        self.left_rotate(new_node.p.p)  # Przypadek 3
-            else:
-                uncle = new_node.p.p.left  # Wujek
-                if uncle.key == 0:
-                    self.left_rotate(new_node.p)
-                    return
+                    if k == k.parent.right:  # Przypadek 2
+                        k = k.parent  # Przypadek 2
+
+                        self.left_rotate(k)  # Przypadek 2
+                    k.parent.red = False  # Przypadek 3
+                    k.parent.parent.red = True  # Przypadek 3
+                    self.right_rotate(k.parent.parent)  # Przypadek 3
+            else: #ojciec jest prawym synem dziadka
+                uncle = k.parent.parent.left  # Wujek
                 if uncle.red:
                     uncle.red = False
-                    new_node.p.red = False
-                    new_node.p.p.red = True
-                    new_node = new_node.p.p
+                    k.parent.red = False
+                    k.parent.parent.red = True
+                    k = k.parent.parent
                 else:
-                    if new_node == new_node.p.right:
-                        new_node = new_node.p
-                        self.left_rotate(new_node)
-                    new_node.p.red = False
-                    new_node.p.p.red = True
-                    self.right_rotate(new_node.p.p)
+                    if k == k.parent.left:
+                        k = k.parent
+                        self.right_rotate(k)
+                    k.parent.red = False
+                    k.parent.parent.red = True
+                    self.left_rotate(k.parent.parent)
+            if k == self.root:                            # If k reaches root then break
+                break
             self.root.red = False
 
     def transplant(self, u, v):
-        if u.p == self.nil:
+        if u.parent == self.nil:
             self.root = v
-        elif u == u.p.left:
-            u.p.left = v
+        elif u == u.parent.left:
+            u.parent.left = v
         else:
-            u.p.right = v
-        v.p = u.p
+            u.parent.right = v
+        v.parent = u.parent
 
     def tree_minimum(self, x):
         while x.left != self.nil:
@@ -150,14 +149,14 @@ class RBT:
             y_original_color = y.red
             x = y.right
             if y.p == z:
-                x.p = y
+                x.parent = y
             else:
                 self.transplant(y, y.right)
                 y.right = z.right
-                y.right.p = y
+                y.right.parent = y
             self.transplant(z, y)
             y.left = z.left
-            y.left.p = y
+            y.left.parent = y
             y.red = z.red
         if not y_original_color:
             self.delete_fixup()
