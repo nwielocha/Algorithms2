@@ -14,7 +14,6 @@ class Node:
 
 
 class RBT:
-
     def __init__(self):
         self.nil = Node(0)
         self.nil.red = False
@@ -166,23 +165,23 @@ class RBT:
             if x == x.p.left:
                 w = x.p.right
                 if w.red:
-                    w.red = False
-                    x.p.red = True
-                    self.left_rotate(x.p)
-                    w = x.p.right
+                    w.red = False           # Przypadek 1
+                    x.p.red = True          # Przypadek 1
+                    self.left_rotate(x.p)   # Przypadek 1
+                    w = x.p.right           # Przypadek 1
                 if not w.left.red and not w.right.red:
-                    w.red = True
-                    x = x.p
+                    w.red = True    # Przypadek 2
+                    x = x.p         # Przypadek 2
                 elif not w.right.red:
-                    w.left.red = False
-                    w.red = True
-                    self.right_rotate(w)
-                    w = x.p.right
-                w.red = x.p.red
-                x.p.red = False
-                w.right.red = False
-                self.left_rotate(x.p)
-                x = self.root
+                    w.left.red = False      # Przypadek 3
+                    w.red = True            # Przypadek 3
+                    self.right_rotate(w)    # Przypadek 3
+                    w = x.p.right           # Przypadek 3
+                w.red = x.p.red         # Przypadek 4
+                x.p.red = False         # Przypadek 4
+                w.right.red = False     # Przypadek 4
+                self.left_rotate(x.p)   # Przypadek 4
+                x = self.root           # Przypadek 4
             else:
                 w = x.p.left
                 if w.red:
