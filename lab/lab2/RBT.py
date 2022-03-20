@@ -14,42 +14,13 @@ class Node:
 
 
 class RBT:
+
     def __init__(self):
         self.nil = Node(0)
         self.nil.red = False
         self.nil.left = None
         self.nil.right = None
         self.root = self.nil
-
-    def left_rotate(self, rotated_node):
-        right_son = rotated_node.right  # Inicjuj right_son
-        rotated_node.right = right_son.left  # Zamien lewe poddrzewo prawego syna RW na prawe poddrzewo RW
-        if right_son.left != self.nil:
-            right_son.left.p = rotated_node
-        right_son.p = rotated_node.p  # Ojcem prawego syna RW uczyń ojca RW
-        if rotated_node.p is None:
-            self.root = right_son
-        elif rotated_node == rotated_node.p.left:
-            rotated_node.p.left = right_son
-        else:
-            rotated_node.p.right = right_son
-        right_son.left = rotated_node  # Przyłącz RW jako lewego syna prawego syna RW
-        rotated_node.p = right_son
-
-    def right_rotate(self, rotated_node):
-        left_son = rotated_node.left
-        rotated_node.left = left_son.right
-        if left_son.right != self.nil:
-            left_son.right.p = rotated_node
-        left_son.p = rotated_node.p
-        if rotated_node.p is None:
-            self.root = left_son
-        elif rotated_node == rotated_node.p.right:
-            rotated_node.p.right = left_son
-        else:
-            rotated_node.p.left = left_son
-        left_son.right = rotated_node
-        rotated_node.p = left_son
 
     def insert(self, key):
         new_node = Node(key)
@@ -83,9 +54,37 @@ class RBT:
 
         # Fixup
         if new_node.p != self.root:
-            pass
             self.insert_fixup(new_node)
 
+    def left_rotate(self, rotated_node):
+        right_son = rotated_node.right  # Inicjuj right_son
+        rotated_node.right = right_son.left  # Zamien lewe poddrzewo prawego syna RW na prawe poddrzewo RW
+        if right_son.left != self.nil:
+            right_son.left.p = rotated_node
+        right_son.p = rotated_node.p  # Ojcem prawego syna RW uczyń ojca RW
+        if rotated_node.p is None:
+            self.root = right_son
+        elif rotated_node == rotated_node.p.left:
+            rotated_node.p.left = right_son
+        else:
+            rotated_node.p.right = right_son
+        right_son.left = rotated_node  # Przyłącz RW jako lewego syna prawego syna RW
+        rotated_node.p = right_son
+
+    def right_rotate(self, rotated_node):
+        left_son = rotated_node.left
+        rotated_node.left = left_son.right
+        if left_son.right != self.nil:
+            left_son.right.p = rotated_node
+        left_son.p = rotated_node.p
+        if rotated_node.p is None:
+            self.root = left_son
+        elif rotated_node == rotated_node.p.right:
+            rotated_node.p.right = left_son
+        else:
+            rotated_node.p.left = left_son
+        left_son.right = rotated_node
+        rotated_node.p = left_son
 
     def insert_fixup(self, new_node):
         while new_node != self.root and new_node.p.red:
@@ -100,11 +99,15 @@ class RBT:
                     if new_node == new_node.p.left:  # Przypadek 2
                         new_node = new_node.p  # Przypadek 2
                         self.right_rotate(new_node)  # Przypadek 2
-                    new_node.p.red = False  # Przypadek 3
-                    new_node.p.p.red = True  # Przypadek 3
-                    self.left_rotate(new_node.p.p)  # Przypadek 3
+                    else:
+                        new_node.p.red = False  # Przypadek 3
+                        new_node.p.p.red = True  # Przypadek 3
+                        self.left_rotate(new_node.p.p)  # Przypadek 3
             else:
                 uncle = new_node.p.p.left  # Wujek
+                if uncle.key == 0:
+                    self.left_rotate(new_node.p)
+                    return
                 if uncle.red:
                     uncle.red = False
                     new_node.p.red = False
@@ -118,9 +121,6 @@ class RBT:
                     new_node.p.p.red = True
                     self.right_rotate(new_node.p.p)
             self.root.red = False
-
-
-    def search(self,key):
 
     def transplant(self, u, v):
         if u.p == self.nil:
@@ -165,6 +165,19 @@ class RBT:
     def delete_fixup(self):
         pass
 
+    def search(self, key, node):
+        if (node.key == key):
+            print("Znaleziono")
+        elif (node.key > key):
+            if (node.left != None):
+                node = node.left
+                self.search(key)
+        else:
+            if (node.right != None):
+                node = node.right
+                node.search(key)
+
+
 def tree_print(node, level=0):
     if node != None:
         tree_print(node.left, level + 1)
@@ -174,19 +187,20 @@ def tree_print(node, level=0):
             print(' ' * 4 * level + '-> ' + str(node.key))
         tree_print(node.right, level + 1)
 
-example = RBT()
+tree = RBT()
 while True:
     choice = input("Co chcesz zrobic?(1.Dodaj/2.Usun/3.Drukuj/4.Szukaj/5.Koniec)")
     if (choice == '1'):
         key = int(input("Jaka liczbe chcesz wstawic?"))
-        example.insert(key)
+        tree.insert(key)
     if (choice == '2'):
         key = int(input("Jaka liczbe chcesz usunac?"))
-        example.delete(key)
+        tree.delete(key)
     if (choice == '3'):
-        tree_print(example.root)
+        tree_print(tree.root)
     if (choice == '4'):
-        print("4")
+        key = int(input("Jaka liczbe chcesz znalezc?"))
+        tree.search(key,tree.root)
     if (choice == '5'):
         break
 
