@@ -28,7 +28,7 @@ class RBT:
         new_node.left = self.nil
         new_node.right = self.nil
 
-        #sprawdz czy drzewo jest puste
+        # sprawdz czy drzewo jest puste
         if self.root == self.nil:
             self.root = new_node
             new_node.red = False
@@ -88,7 +88,7 @@ class RBT:
 
     def insert_fixup(self, k):
         while k.parent.red:
-            if k.parent == k.parent.parent.left: #ojciec jest lewym synem dziadka
+            if k.parent == k.parent.parent.left:  # ojciec jest lewym synem dziadka
                 uncle = k.parent.parent.right  # Wujek
                 if uncle.red:
                     uncle.red = False  # Przypadek 1
@@ -103,7 +103,7 @@ class RBT:
                     k.parent.red = False  # Przypadek 3
                     k.parent.parent.red = True  # Przypadek 3
                     self.right_rotate(k.parent.parent)  # Przypadek 3
-            else: #ojciec jest prawym synem dziadka
+            else:  # ojciec jest prawym synem dziadka
                 uncle = k.parent.parent.left  # Wujek
                 if uncle.red:
                     uncle.red = False
@@ -117,7 +117,7 @@ class RBT:
                     k.parent.red = False
                     k.parent.parent.red = True
                     self.left_rotate(k.parent.parent)
-            if k == self.root:                            # If k reaches root then break
+            if k == self.root:  # If k reaches root then break
                 break
             self.root.red = False
 
@@ -159,50 +159,88 @@ class RBT:
             y.left.parent = y
             y.red = z.red
         if not y_original_color:
-            self.delete_fixup()
+            self.delete_fixup(x)
 
-    def delete_fixup(self):
-        pass
+    def delete_fixup(self, x):
+        while x != self.root and x.red == False:
+            if x == x.p.left:
+                w = x.p.right
+                if w.red:
+                    w.red = False
+                    x.p.red = True
+                    self.left_rotate(x.p)
+                    w = x.p.right
+                if not w.left.red and not w.right.red:
+                    w.red = True
+                    x = x.p
+                elif not w.right.red:
+                    w.left.red = False
+                    w.red = True
+                    self.right_rotate(w)
+                    w = x.p.right
+                w.red = x.p.red
+                x.p.red = False
+                w.right.red = False
+                self.left_rotate(x.p)
+                x = self.root
+            else:
+                w = x.p.left
+                if w.red:
+                    w.red = False
+                    x.p.red = True
+                    self.left_rotate(x.p)
+                    w = x.p.left
+                if not w.right.red and not w.left.red:
+                    w.red = True
+                    x = x.p
+                elif not w.left.red:
+                    w.right.red = False
+                    w.red = True
+                    self.right_rotate(w)
+                    w = x.p.left
+                w.red = x.p.red
+                x.p.red = False
+                w.left.red = False
+                self.left_rotate(x.p)
+                x = self.root
+        x.red = False
 
     def search(self, key, node):
-        if (node.key == key):
+        if node.key == key:
             print("Znaleziono")
-        elif (node.key > key):
-            if (node.left != None):
+        elif node.key > key:
+            if node.left is not None:
                 node = node.left
                 self.search(key)
         else:
-            if (node.right != None):
+            if node.right is not None:
                 node = node.right
                 node.search(key)
 
 
 def tree_print(node, level=0):
-    if node != None:
+    if node is not None:
         tree_print(node.left, level + 1)
-        if node.red == True:
-            print('\033[91m'+' ' * 4 * level + '-> ' + str(node.key)+'\033[37m')
+        if node.red:
+            print('\033[91m' + ' ' * 4 * level + '-> ' + str(node.key) + '\033[37m')
         else:
             print(' ' * 4 * level + '-> ' + str(node.key))
         tree_print(node.right, level + 1)
 
+
 tree = RBT()
 while True:
     choice = input("Co chcesz zrobic?(1.Dodaj/2.Usun/3.Drukuj/4.Szukaj/5.Koniec)")
-    if (choice == '1'):
+    if choice == '1':
         key = int(input("Jaka liczbe chcesz wstawic?"))
         tree.insert(key)
-    if (choice == '2'):
+    if choice == '2':
         key = int(input("Jaka liczbe chcesz usunac?"))
         tree.delete(key)
-    if (choice == '3'):
+    if choice == '3':
         tree_print(tree.root)
-    if (choice == '4'):
+    if choice == '4':
         key = int(input("Jaka liczbe chcesz znalezc?"))
-        tree.search(key,tree.root)
-    if (choice == '5'):
+        tree.search(key, tree.root)
+    if choice == '5':
         break
-
-
-
-
