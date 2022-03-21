@@ -23,7 +23,7 @@ class RBT:
 
     def insert(self, key):
         new_node = Node(key)
-        new_node.parent = None
+        # new_node.parent = None
         new_node.left = self.nil
         new_node.right = self.nil
 
@@ -57,17 +57,17 @@ class RBT:
 
     def left_rotate(self, x):
         y = x.right  # Inicjuj right_son
-        x.right = y.left  # Zamien lewe poddrzewo prawego syna RW na prawe poddrzewo RW
+        x.right = y.left  # Zamien lewe poddrzewo y na prawe poddrzewo x
         if y.left != self.nil:
             y.left.parent = x
-        y.parent = x.parent  # Ojcem prawego syna RW uczyń ojca RW
+        y.parent = x.parent  # Ojcem y uczyn ojca x
         if x.parent is None:
             self.root = y
         elif x == x.parent.left:
             x.parent.left = y
         else:
             x.parent.right = y
-        y.left = x  # Przyłącz RW jako lewego syna prawego syna RW
+        y.left = x  # Przyłącz x jako lewego syna y
         x.parent = y
 
     def right_rotate(self, x):
@@ -107,7 +107,7 @@ class RBT:
                 if uncle.red:
                     uncle.red = False
                     k.parent.red = False
-                    k.parent.parent.red = True
+                    k.parent.parent.red = False
                     k = k.parent.parent
                 else:
                     if k == k.parent.left:
@@ -219,12 +219,12 @@ class RBT:
 
 def tree_print(node, level=0):
     if node is not None:
-        tree_print(node.left, level + 1)
+        tree_print(node.right, level + 1)
         if node.red:
             print('\033[91m' + ' ' * 4 * level + '-> ' + str(node.key) + '\033[37m')
         else:
             print(' ' * 4 * level + '-> ' + str(node.key))
-        tree_print(node.right, level + 1)
+        tree_print(node.left, level + 1)
 
 
 tree = RBT()
