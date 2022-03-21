@@ -147,7 +147,7 @@ class RBT:
             y = self.tree_minimum(z.right)
             y_original_color = y.red
             x = y.right
-            if y.p == z:
+            if y.parent == z:
                 x.parent = y
             else:
                 self.transplant(y, y.right)
@@ -162,45 +162,45 @@ class RBT:
 
     def delete_fixup(self, x):
         while x != self.root and x.red == False:
-            if x == x.p.left:
-                w = x.p.right
+            if x == x.parent.left:
+                w = x.parent.right
                 if w.red:
                     w.red = False           # Przypadek 1
-                    x.p.red = True          # Przypadek 1
-                    self.left_rotate(x.p)   # Przypadek 1
-                    w = x.p.right           # Przypadek 1
+                    x.parent.red = True          # Przypadek 1
+                    self.left_rotate(x.parent)   # Przypadek 1
+                    w = x.parent.right           # Przypadek 1
                 if not w.left.red and not w.right.red:
                     w.red = True    # Przypadek 2
-                    x = x.p         # Przypadek 2
+                    x = x.parent         # Przypadek 2
                 elif not w.right.red:
                     w.left.red = False      # Przypadek 3
                     w.red = True            # Przypadek 3
                     self.right_rotate(w)    # Przypadek 3
-                    w = x.p.right           # Przypadek 3
-                w.red = x.p.red         # Przypadek 4
-                x.p.red = False         # Przypadek 4
+                    w = x.parent.right           # Przypadek 3
+                w.red = x.parent.red         # Przypadek 4
+                x.parent.red = False         # Przypadek 4
                 w.right.red = False     # Przypadek 4
-                self.left_rotate(x.p)   # Przypadek 4
+                self.left_rotate(x.parent)   # Przypadek 4
                 x = self.root           # Przypadek 4
             else:
-                w = x.p.left
+                w = x.parent.left
                 if w.red:
                     w.red = False
-                    x.p.red = True
-                    self.left_rotate(x.p)
-                    w = x.p.left
+                    x.parent.red = True
+                    self.left_rotate(x.parent)
+                    w = x.parent.left
                 if not w.right.red and not w.left.red:
                     w.red = True
-                    x = x.p
+                    x = x.parent
                 elif not w.left.red:
                     w.right.red = False
                     w.red = True
                     self.right_rotate(w)
-                    w = x.p.left
-                w.red = x.p.red
-                x.p.red = False
+                    w = x.parent.left
+                w.red = x.parent.red
+                x.parent.red = False
                 w.left.red = False
-                self.left_rotate(x.p)
+                self.left_rotate(x.parent)
                 x = self.root
         x.red = False
 
