@@ -118,7 +118,8 @@ class RBT:
                     self.left_rotate(k.parent.parent)
             if k == self.root:  # If k reaches root then break
                 break
-            self.root.red = False
+        self.root.red = False
+
 
     def transplant(self, u, v):
         if u.parent == self.nil:
@@ -135,7 +136,8 @@ class RBT:
         return x
 
     def delete(self, z):
-        y = z
+        z = self.search(z, self.root)
+        y = Node(z)
         y_original_color = y.red
         if z.left == self.nil:
             x = z.right
@@ -203,28 +205,34 @@ class RBT:
                 self.left_rotate(x.parent)
                 x = self.root
         x.red = False
+        self.root.red = False
+
 
     def search(self, key, node):
         if node.key == key:
-            print("Znaleziono")
+            return node
         elif node.key > key:
             if node.left is not None:
                 node = node.left
-                self.search(key)
+                result = self.search(key, node)
+                if result:
+                    return result
         else:
             if node.right is not None:
                 node = node.right
-                node.search(key)
+                result = self.search(key, node)
+                if result:
+                    return result
 
 
 def tree_print(node, level=0):
     if node is not None:
-        tree_print(node.left, level + 1)
+        tree_print(node.right, level + 1)
         if node.red:
-            print('\033[91m' + ' ' * 4 * level + '-> ' + str(node.key) + '\033[37m')
+            print('\033[91m' + ' ' * 4 * level + '-> ' + str(node.key) + '\033[38m')
         else:
             print(' ' * 4 * level + '-> ' + str(node.key))
-        tree_print(node.right, level + 1)
+        tree_print(node.left, level + 1)
 
 
 tree = RBT()
@@ -240,6 +248,6 @@ while True:
         tree_print(tree.root)
     if choice == '4':
         key = int(input("Jaka liczbe chcesz znalezc?"))
-        tree.search(key, tree.root)
+        print(tree.search(key, tree.root))
     if choice == '5':
         break
