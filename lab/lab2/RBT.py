@@ -210,7 +210,7 @@ class RBT:
         elif node.key > key:
             if node.left is not None:
                 node = node.left
-                self.search(key)
+                self.search(key, node)
         else:
             if node.right is not None:
                 node = node.right
