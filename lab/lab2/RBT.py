@@ -56,6 +56,7 @@ class RBT:
             self.insert_fixup(new_node)
 
     def left_rotate(self, x):
+        print(f"\033[31m[OPERATION] : \033[38mLEFT ROTATE NODE \033[33m{x.key}\033[38m\n")
         y = x.right  # Inicjuj right_son
         x.right = y.left  # Zamien lewe poddrzewo y na prawe poddrzewo x
         if y.left != self.nil:
@@ -71,6 +72,7 @@ class RBT:
         x.parent = y
 
     def right_rotate(self, x):
+        print(f"\033[31m[OPERATION] : \033[38mRIGHT ROTATE NODE \033[33m{x.key}\033[38m\n")
         y = x.left
         x.left = y.right
         if y.right != self.nil:
@@ -88,28 +90,33 @@ class RBT:
     def insert_fixup(self, k):
         while k.parent.red:
             if k.parent == k.parent.parent.left:  # ojciec jest lewym synem dziadka
+                print(f"\033[35m[CONDITION] : \033[38mCASE WHEN PARENT OF NODE \033[33m{k.key}\033[38m IS LEFT SON OF GRANDPARENT\n")
                 uncle = k.parent.parent.right  # Wujek
                 if uncle.red:
+                    print(f"\033[31m[OPERATION] : \033[38mCOLOR PARENT UNCLE AND GRANDPARENT OF NODE \033[33m{k.key}\033[38m")
                     uncle.red = False  # Przypadek 1
                     k.parent.red = False  # Przypadek 1
                     k.parent.parent.red = True  # Przypadek 1
                     k = k.parent.parent  # Przypadek 1
                 else:
+                    print("\033[35m[CONDITION] : \033[38mCASE WHEN UNCLE IS NOT RED\n")
                     if k == k.parent.right:  # Przypadek 2
                         k = k.parent  # Przypadek 2
-
                         self.left_rotate(k)  # Przypadek 2
                     k.parent.red = False  # Przypadek 3
                     k.parent.parent.red = True  # Przypadek 3
                     self.right_rotate(k.parent.parent)  # Przypadek 3
             else:  # ojciec jest prawym synem dziadka
+                print(f"\033[35m[CONDITION] : \033[38mCASE WHEN PARENT OF NODE \033[33m{k.key}\033[38m IS RIGHT SON OF GRANDPARENT\n")
                 uncle = k.parent.parent.left  # Wujek
                 if uncle.red:
+                    print(f"\033[31m[OPERATION] : \033[38mCOLOR PARENT UNCLE AND GRANDPARENT OF NODE \033[33m{k.key}\033[38m\n")
                     uncle.red = False
                     k.parent.red = False
                     k.parent.parent.red = False
                     k = k.parent.parent
                 else:
+                    print("\033[35m[CONDITION] : \033[38mCASE WHEN UNCLE IS NOT RED\n")
                     if k == k.parent.left:
                         k = k.parent
                         self.right_rotate(k)
@@ -118,7 +125,7 @@ class RBT:
                     self.left_rotate(k.parent.parent)
             if k == self.root:  # If k reaches root then break
                 break
-            self.root.red = False
+
 
     def transplant(self, u, v):
         if u.parent == self.nil:
@@ -135,7 +142,8 @@ class RBT:
         return x
 
     def delete(self, z):
-        y = z
+        z = self.search(z, self.root)
+        y = Node(z)
         y_original_color = y.red
         if z.left == self.nil:
             x = z.right
@@ -163,8 +171,10 @@ class RBT:
     def delete_fixup(self, x):
         while x != self.root and x.red == False:
             if x == x.parent.left:
+                print(f"\033[35m[CONDITION] : \033[38mCASE WHEN NODE \033[33m{x.key}\033[38m IS LEFT SON OF PARENT\n")
                 w = x.parent.right
                 if w.red:
+                    print(f"\033[31m[OPERATION] : \033[38mCOLOR BROTHER AND FATHER OF NODE \033[33m{x.key}\033[38m")
                     w.red = False           # Przypadek 1
                     x.parent.red = True          # Przypadek 1
                     self.left_rotate(x.parent)   # Przypadek 1
@@ -183,8 +193,10 @@ class RBT:
                 self.left_rotate(x.parent)   # Przypadek 4
                 x = self.root           # Przypadek 4
             else:
+                print(f"\033[35m[CONDITION] : \033[38mCASE WHEN NODE \033[33m{x.key}\033[38m IS RIGHT SON OF PARENT\n")
                 w = x.parent.left
                 if w.red:
+                    print(f"\033[31m[OPERATION] : \033[38mCOLOR BROTHER AND FATHER OF NODE \033[33m{x.key}\033[38m")
                     w.red = False
                     x.parent.red = True
                     self.left_rotate(x.parent)
@@ -203,25 +215,35 @@ class RBT:
                 self.left_rotate(x.parent)
                 x = self.root
         x.red = False
+        self.root.red = False
+
 
     def search(self, key, node):
         if node.key == key:
-            print("Znaleziono")
+            return node
         elif node.key > key:
             if node.left is not None:
                 node = node.left
+<<<<<<< HEAD
                 self.search(key, node)
+=======
+                result = self.search(key, node)
+                if result:
+                    return result
+>>>>>>> f3ba52b0ede11a206589f75733bce3982190a9f7
         else:
             if node.right is not None:
                 node = node.right
-                node.search(key)
+                result = self.search(key, node)
+                if result:
+                    return result
 
 
 def tree_print(node, level=0):
     if node is not None:
         tree_print(node.right, level + 1)
         if node.red:
-            print('\033[91m' + ' ' * 4 * level + '-> ' + str(node.key) + '\033[37m')
+            print('\033[91m' + ' ' * 4 * level + '-> ' + str(node.key) + '\033[38m')
         else:
             print(' ' * 4 * level + '-> ' + str(node.key))
         tree_print(node.left, level + 1)
@@ -240,6 +262,7 @@ while True:
         tree_print(tree.root)
     if choice == '4':
         key = int(input("Jaka liczbe chcesz znalezc?"))
-        tree.search(key, tree.root)
+        print(tree.search(key, tree.root))
     if choice == '5':
         break
+
