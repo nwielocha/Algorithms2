@@ -38,6 +38,6 @@ def lcs(X, Y):
         print(L[i])
 
 
-X = "abaabbaaa"
-Y = "babab"
+X = "nowator"
+Y = "nawigator"
 lcs(X, Y)
