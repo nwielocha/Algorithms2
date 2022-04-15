@@ -24,18 +24,25 @@ def make_queue(c):
     return d
 
 
-# TODO: ExtractMin(Q)
-def extract_min(q):
-    x = q.values()
+def dict_to_list(dic):
+    l1 = []
+    l2 = []
+    for keys, val in dic.items():
+        l1.append(keys)
+        l2.append(val)
+    lst_tuple = list(zip(l1, l2))
+    return lst_tuple
+
+
+def extract_min(queue):
 
 
 # TODO: Insert(Q, z)
-
 # TODO: huffman(C)
 
 # Alfabet C
 C = make_a_list_of_chars_from_txt_file()
 print(C)
 # Kolejka Q
-Q = make_queue(C)
+Q = dict_to_list(make_queue(C))
 print(Q)
