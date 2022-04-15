@@ -7,42 +7,31 @@
 # wyliczenie stopnia kompresji.
 
 
-def make_a_list_of_chars_from_txt_file():
-    l1 = []
-    with open("text.txt", "rt") as f:
-        [l1.extend(list(l2)) for l2 in f]
-    return l1
+def make_a_list_of_chars_from_txt_file(filename):
+    with open(filename, "r") as f:
+        return list(f.read())
 
 
 def make_queue(c):
-    d = {}
-    for i in c:
-        d[i] = 0
-    for i in c:
-        if i in d:
-            d[i] += 1
-    return d
+    return {i: c.count(i) for i in set(c)}
 
 
 def dict_to_list(dic):
-    l1 = []
-    l2 = []
-    for keys, val in dic.items():
-        l1.append(keys)
-        l2.append(val)
-    lst_tuple = list(zip(l1, l2))
-    return lst_tuple
+    return [(key, value) for key,value in dic.items() if key != '\n']
 
 
 def extract_min(queue):
+    return min(queue, key=lambda x: x[1])
 
 
 # TODO: Insert(Q, z)
 # TODO: huffman(C)
 
 # Alfabet C
-C = make_a_list_of_chars_from_txt_file()
+C = make_queue(make_a_list_of_chars_from_txt_file("text.txt"))
 print(C)
-# Kolejka Q
-Q = dict_to_list(make_queue(C))
+# print(C)
+# # Kolejka Q
+Q = dict_to_list(C)
 print(Q)
+print(extract_min(Q))
