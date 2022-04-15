@@ -6,32 +6,48 @@
 # Zadanie 2: To samo co w zadaniu pierwszym + opcja kodowania i dekodowania pliku wejściowego w formacie *.txt oraz
 # wyliczenie stopnia kompresji.
 
-
-def make_a_list_of_chars_from_txt_file(filename):
-    with open(filename, "r") as f:
-        return list(f.read())
-
-
-def make_queue(c):
-    return {i: c.count(i) for i in set(c)}
-
-
-def dict_to_list(dic):
-    return [(key, value) for key,value in dic.items() if key != '\n']
+class Node:
+    def __init__(self, freq, key=None):
+        self.key = key
+        self.freq = freq
+        self.parent = None
+        self.left = None
+        self.right = None
 
 
-def extract_min(queue):
-    return min(queue, key=lambda x: x[1])
+class Huffman:
+
+    def make_queue(self, filename):
+        with open(filename, "r") as f:
+            text_listed = list(f.read())
+        return [Node(text_listed.count(letter), letter)
+                for letter in set(text_listed)]
+
+    def extract_min(self, queue):
+        result = min(queue, key=lambda x: x.freq)
+        queue.remove(result)
+        return result
+
+    # TODO: Insert(Q, z)
+
+    def huffman(self, Q):
+        for i in range(2, len(Q) + 1):
+            x = self.extract_min(Q)
+            y = self.extract_min(Q)
+            z = Node(x.freq + y.freq)
+            z.left = x
+            z.right = y
+            Q.insert(0, z)
+        return self.extract_min(Q)
 
 
-# TODO: Insert(Q, z)
-# TODO: huffman(C)
+# Kolejka Q
+huffman = Huffman()
+queue = huffman.make_queue("text.txt")
+for node in queue:
+    if node.key:
+        print("Znak:",node.key,"\nLiczebność:",node.freq,'\n')
+parent_node = huffman.huffman(queue)
 
-# Alfabet C
-C = make_queue(make_a_list_of_chars_from_txt_file("text.txt"))
-print(C)
-# print(C)
-# # Kolejka Q
-Q = dict_to_list(C)
-print(Q)
-print(extract_min(Q))
+
+
