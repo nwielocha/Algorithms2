@@ -1,4 +1,4 @@
-# Algorytm Huffmana - Nicolas Wielocha
+# Algorytm Huffmana - Nicolas Wielocha, Maciej Cymański
 # Do wyboru zadanie 1 (deadline: do 15 kwietnia włącznie) lub zadanie 2 (deadline: do 22 kwietnia włącznie).
 # Gotowe implementacje do wykorzystania: http://rosettacode.org/wiki/Huffman_coding
 # Zadanie 1: Na bazie pliku wejściowego w formacie *.txt zbuduj drzewo kodu Huffmana stosując algorytm Huffmana.
