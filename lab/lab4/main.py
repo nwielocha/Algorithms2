@@ -45,7 +45,6 @@ class Huffman:
         queue.remove(lowest_frequency_node)
         return lowest_frequency_node
 
-
     def huffman(self, Q):
         """
         Buils huffman tree
@@ -80,6 +79,7 @@ def printNodes(node, val=''):
     if (not node.left and not node.right):
         print(f"{str(node.key)} -> {newVal}")
 
+
 if __name__ == '__main__':
     huffman = Huffman()
     queue = huffman.make_queue("text.txt")
@@ -95,4 +95,3 @@ if __name__ == '__main__':
     if length_of_text == parent_node.freq:
         print(f"Sukces\nDługość tekstu: {length_of_text}\n"
               f"Frequency korzenia: {parent_node.freq}")
-
