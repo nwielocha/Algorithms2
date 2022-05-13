@@ -10,3 +10,6 @@ Longest Common Subsequence
 
 ## Lab4
 Huffman's Algorithm
+
+## Lab5
+B-Tree
